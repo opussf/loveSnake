@@ -1,4 +1,4 @@
-<project name="loveSnake" default="package">
+<project name="Snake" default="package">
 	<!-- version 7.1 -->
 
 	<tstamp/>
