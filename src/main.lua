@@ -8,7 +8,7 @@ local fieldSize = 15
 local snake = {{1,1}, {2,1}, {2,2}}
 local snakeDirection = {1, 0}
 local snakeSize = 10
-local snakeSpeed = 0.25 -- seonds per size
+local snakeSpeed = 0.17 -- seonds per size
 local updateTime = 0
 
 function love.load()
@@ -28,7 +28,8 @@ function love.update( dt )
         updateTime = 0
         if #field == 0 then
             fieldSize = fieldSize + math.floor(fieldSize / 2)
-            snakeSpeed = snakeSpeed - 0.05
+            snakeSpeed = snakeSpeed > 0.1 and snakeSpeed - 0.05 or snakeSpeed
+
             initField( fieldSize )
         end
         print( #field, snakeSpeed )
@@ -106,5 +107,5 @@ function drawField()
 end
 
 function endGame()
-    print( "GAME OVER!" )
+    print( "GAME OVER!  Snake Size is: "..#snake )
 end
