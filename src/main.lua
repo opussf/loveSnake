@@ -17,7 +17,7 @@ function love.load()
     maxY = height / snakeSize
     start = os.time()
     print( maxX, maxY, start )
-    initField( 15 )
+    initField( 25 )
 end
 
 function love.update( dt )
@@ -34,7 +34,7 @@ function love.draw()
 end
 
 function love.keypressed( key, scancode, isrepeat )
-    print( key, scancode, isrepeat )
+    -- print( key, scancode, isrepeat )
     if keys[key] then
         snakeDirection = keys[key]
     end
