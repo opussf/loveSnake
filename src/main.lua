@@ -4,6 +4,7 @@ local width, height = 0, 0
 local maxX, maxY = 0, 0
 local keys = {["down"] = {0,1}, ["right"] = {1,0}, ["up"] = {0,-1}, ["left"] = {-1,0} }
 local field = {}
+local fieldSize = 15
 local snake = {{1,1}, {2,1}, {2,2}}
 local snakeDirection = {1, 0}
 local snakeSize = 10
@@ -17,7 +18,7 @@ function love.load()
     maxY = height / snakeSize
     start = os.time()
     print( maxX, maxY, start )
-    initField( 25 )
+    initField( fieldSize )
 end
 
 function love.update( dt )
@@ -25,6 +26,15 @@ function love.update( dt )
     if updateTime >= snakeSpeed then
         updateSnake()
         updateTime = 0
+        if #field == 0 then
+            fieldSize = fieldSize + math.floor(fieldSize / 2)
+            snakeSpeed = snakeSpeed - 0.05
+            initField( fieldSize )
+        end
+        print( #field, snakeSpeed )
+        for _, f in ipairs(field) do
+            print( f[1], f[2] )
+        end
     end
 end
 
@@ -44,7 +54,7 @@ function initField( numOfDots )
     local dotCount = 0
     local x, y
     while dotCount < numOfDots do
-        x, y = math.random(maxX), math.random(maxY)
+        x, y = math.random(maxX-1), math.random(maxY-1)
         validPoint = true
         for _, segment in pairs( field ) do
             if segment[1] == x and segment[2] == y then
@@ -94,7 +104,6 @@ function drawField()
         love.graphics.rectangle( "fill", segment[1]*snakeSize, segment[2]*snakeSize, snakeSize, snakeSize )
     end
 end
-
 
 function endGame()
     print( "GAME OVER!" )
