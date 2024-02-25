@@ -2,6 +2,7 @@
 
 local width, height = 0, 0
 local maxX, maxY = 0, 0
+local keys = {["down"] = {0,1}, ["right"] = {1,0}, ["up"] = {0,-1}, ["left"] = {-1,0} }
 local snake = {{1,1}, {2,1}, {2,2}}
 local snakeDirection = {1, 0}
 local snakeSize = 10
@@ -23,13 +24,20 @@ function love.update( dt )
         updateSnake()
         updateTime = 0
     end
-    --print( dt )
-    -- now = os.date( "*t" )
-    -- ms = socket.gettime()
 end
 
 function love.draw()
     drawSnake()
+end
+
+function love.keypressed( key, scancode, isrepeat )
+    print( key, scancode, isrepeat )
+    if keys[key] then
+        snakeDirection = keys[key]
+    end
+    if key == "space" then
+        table.insert( snake, 1, snake[1] )
+    end
 end
 
 function updateSnake()
