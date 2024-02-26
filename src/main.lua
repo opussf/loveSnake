@@ -18,6 +18,7 @@ function love.load()
     maxY = height / snakeSize
     start = os.time()
     print( maxX, maxY, start )
+    math.randomseed( os.time() )
     initField( fieldSize )
 end
 
