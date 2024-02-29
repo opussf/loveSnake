@@ -4,12 +4,14 @@ local width, height = 0, 0
 local maxX, maxY = 0, 0
 local keys = {["down"] = {0,1}, ["right"] = {1,0}, ["up"] = {0,-1}, ["left"] = {-1,0} }
 local field = {}
-local fieldSize = 25
-local snake = {{1,1}, {2,1}, {2,2}}
-local snakeDirection = {1, 0}
+local initialFieldSize = 25
+local fieldSize = initialFieldSize
+local snake
+local snakeDirection
 local snakeSize = 10
 local snakeSpeed = 0.12 -- seonds per size
 local updateTime = 0
+local isRunning = true
 
 function love.load()
     -- load function
@@ -20,22 +22,25 @@ function love.load()
     print( maxX, maxY, start )
     math.randomseed( os.time() )
     initField( fieldSize )
+    initSnake()
 end
 
 function love.update( dt )
     updateTime = updateTime + dt
-    if updateTime >= snakeSpeed then
-        updateSnake()
-        updateTime = 0
-        if #field == 0 then
-            fieldSize = fieldSize + math.floor(fieldSize / 2)
-            snakeSpeed = snakeSpeed > 0.1 and snakeSpeed - 0.05 or snakeSpeed
+    if isRunning then 
+        if updateTime >= snakeSpeed then
+            updateSnake()
+            updateTime = 0
+            if #field == 0 then
+                fieldSize = fieldSize + math.floor(fieldSize / 2)
+                snakeSpeed = snakeSpeed > 0.1 and snakeSpeed - 0.05 or snakeSpeed
 
-            initField( fieldSize )
-        end
-        print( #field, snakeSpeed )
-        for _, f in ipairs(field) do
-            print( f[1], f[2] )
+                initField( fieldSize )
+            end
+            print( #field, snakeSpeed )
+            for _, f in ipairs(field) do
+                print( f[1], f[2] )
+            end
         end
     end
 end
@@ -50,11 +55,18 @@ function love.keypressed( key, scancode, isrepeat )
     if keys[key] then
         snakeDirection = keys[key]
     end
+    if key == "space" and not isRunning then
+        fieldSize = initialFieldSize
+        initField( fieldSize )
+        initSnake()
+        isRunning = true
+    end
 end
 
 function initField( numOfDots )
     local dotCount = 0
     local x, y
+    field = {}
     while dotCount < numOfDots do
         x, y = math.random(maxX-1), math.random(maxY-1)
         validPoint = true
@@ -70,10 +82,18 @@ function initField( numOfDots )
         end
     end
 end
+function initSnake()
+    snake = {{1,1}, {2,1}, {2,2}}
+    snakeDirection = keys.right
+end
 
 function updateSnake()
     firstSegment = snake[#snake]
     newHead = {firstSegment[1] + snakeDirection[1], firstSegment[2] + snakeDirection[2]}
+    if ( newHead[1] > maxX or newHead[1] < 0 
+            or newHead[2] > maxY or newHead[2] < 0 ) then
+        endGame()
+    end
     for _, segment in pairs( snake ) do
         if newHead[1] == segment[1] and newHead[2] == segment[2] then
             endGame()
@@ -109,4 +129,5 @@ end
 
 function endGame()
     print( "GAME OVER!  Snake Size is: "..#snake )
+    isRunning = false
 end
