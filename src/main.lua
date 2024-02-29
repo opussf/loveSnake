@@ -151,6 +151,7 @@ function drawGameOver()
         love.graphics.rectangle( "fill", (segment[1]+offsetX)*snakeSize,(segment[2]+offsetY)*snakeSize, 
                                 snakeSize,snakeSize )
     end
+    love.graphics.print( string.format( "Score: %i  HighScore: %i", #snake, highScore ), 10, 10 )
 end
 
 function endGame()
