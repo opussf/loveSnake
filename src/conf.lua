@@ -1,8 +1,8 @@
 function love.conf(t)
     t.version = "11.5"
     t.window.title = "Snake v@VERSION@"
-    t.window.width = 1024
-    t.window.height = 768
+    t.window.width = 1020
+    t.window.height = 760
     t.window.borderless = false
     t.window.resizable = false
     t.modules.joystick = false

@@ -13,6 +13,7 @@ local snakeSize = 10
 local snakeSpeed = 0.12 -- seonds per size
 local updateTime = 0
 local isRunning = true
+local highScore = 0
 
 function love.load()
     -- load function
@@ -24,8 +25,16 @@ function love.load()
     math.randomseed( os.time() )
     initField( fieldSize )
     initSnake()
+    loadHighscore()
 end
-
+function loadHighscore()  -- @todo: fix this...
+    -- hs = love.filesystem.newFile 'highscore'
+    -- hs:open('r')
+    -- highScore = tonumber(hs:read("data")[1])
+    -- print(highScore)
+    -- hs:close()
+    highScore = 0
+end
 function love.update( dt )
     updateTime = updateTime + dt
     if isRunning then 
@@ -38,14 +47,13 @@ function love.update( dt )
 
                 initField( fieldSize )
             end
-            print( #field, snakeSpeed )
+            print( #field, snakeSpeed, #snake, highScore )
             for _, f in ipairs(field) do
                 print( f[1], f[2] )
             end
         end
     end
 end
-
 function love.draw()
     drawField()
     drawSnake()
@@ -53,7 +61,6 @@ function love.draw()
         drawGameOver()
     end
 end
-
 function love.keypressed( key, scancode, isrepeat )
     -- print( key, scancode, isrepeat )
     if keys[key] then
@@ -149,4 +156,14 @@ end
 function endGame()
     print( "GAME OVER!  Snake Size is: "..#snake )
     isRunning = false
+    highScore = math.max( highScore, #snake )
+end
+
+function love.quit()
+    hs = love.filesystem.newFile 'highscore'
+    hs:open('w')
+
+    hs:write( highScore )
+
+    hs:close()
 end
