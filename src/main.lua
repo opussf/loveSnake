@@ -99,9 +99,9 @@ function updateSnake()
             endGame()
         end
     end
-    for _, dot in pairs( field ) do
+    for _, dot in ipairs( field ) do
         if newHead[1] == dot[1] and newHead[2] == dot[2] then
-            lengthenSnake()
+            lengthenSnake( ( _ == #field and 10 or 1 ) )
             table.remove( field, _ )
         end
     end
@@ -109,8 +109,11 @@ function updateSnake()
     table.remove( snake, 1 )
 end
 
-function lengthenSnake()
-    table.insert( snake, 1, snake[1] )
+function lengthenSnake( addSegments )
+    addSegments = addSegments or 1
+    for lcv = 1,addSegments do
+        table.insert( snake, 1, snake[1] )
+    end
 end
 
 function drawSnake()
@@ -122,7 +125,10 @@ end
 
 function drawField()
     love.graphics.setColor( 0, 1, 0, 1 )
-    for _, segment in pairs( field ) do
+    for _, segment in ipairs( field ) do
+        if _ == #field then
+            love.graphics.setColor( 1, 0, 0, 1 )
+        end
         love.graphics.rectangle( "fill", segment[1]*snakeSize, segment[2]*snakeSize, snakeSize, snakeSize )
     end
 end
