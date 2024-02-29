@@ -14,6 +14,7 @@ local snakeSpeed = 0.12 -- seonds per size
 local updateTime = 0
 local isRunning = true
 local highScore = 0
+local highScoreFile = "highscore"
 
 function love.load()
     -- load function
@@ -28,12 +29,13 @@ function love.load()
     loadHighscore()
 end
 function loadHighscore()  -- @todo: fix this...
-    -- hs = love.filesystem.newFile 'highscore'
-    -- hs:open('r')
-    -- highScore = tonumber(hs:read("data")[1])
-    -- print(highScore)
-    -- hs:close()
-    highScore = 0
+    hs = love.filesystem.newFile( highScoreFile )
+    hs:open('r')
+    data,size = hs:read( 100 )
+    hs:close()
+    print( data, size )
+    highScore = data and tonumber( data ) or 0
+    print(highScore)
 end
 function love.update( dt )
     updateTime = updateTime + dt
@@ -161,7 +163,7 @@ function endGame()
 end
 
 function love.quit()
-    hs = love.filesystem.newFile 'highscore'
+    hs = love.filesystem.newFile( highScoreFile )
     hs:open('w')
 
     hs:write( highScore )
