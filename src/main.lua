@@ -4,11 +4,11 @@ local width, height = 0, 0
 local maxX, maxY = 0, 0
 local keys = {["down"] = {0,1}, ["right"] = {1,0}, ["up"] = {0,-1}, ["left"] = {-1,0} }
 local field = {}
-local fieldSize = 15
+local fieldSize = 25
 local snake = {{1,1}, {2,1}, {2,2}}
 local snakeDirection = {1, 0}
 local snakeSize = 10
-local snakeSpeed = 0.17 -- seonds per size
+local snakeSpeed = 0.12 -- seonds per size
 local updateTime = 0
 
 function love.load()
