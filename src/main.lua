@@ -1,4 +1,5 @@
 -- local socket=require("socket")
+gameoverbanner = require "gameoverbanner"
 
 local width, height = 0, 0
 local maxX, maxY = 0, 0
@@ -48,6 +49,9 @@ end
 function love.draw()
     drawField()
     drawSnake()
+    if not isRunning then
+        drawGameOver()
+    end
 end
 
 function love.keypressed( key, scancode, isrepeat )
@@ -130,6 +134,15 @@ function drawField()
             love.graphics.setColor( 1, 0, 0, 1 )
         end
         love.graphics.rectangle( "fill", segment[1]*snakeSize, segment[2]*snakeSize, snakeSize, snakeSize )
+    end
+end
+
+function drawGameOver()
+    love.graphics.setColor( 1, 0, 0, 1 )
+    offsetX, offsetY = 10, 10
+    for _, segment in ipairs( gameoverbanner ) do
+        love.graphics.rectangle( "fill", (segment[1]+offsetX)*snakeSize,(segment[2]+offsetY)*snakeSize, 
+                                snakeSize,snakeSize )
     end
 end
 
