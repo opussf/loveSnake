@@ -139,7 +139,7 @@ end
 
 function drawGameOver()
     love.graphics.setColor( 1, 0, 0, 1 )
-    offsetX, offsetY = 10, 10
+    offsetX, offsetY = (maxX/2)-28, (maxY/2)-2
     for _, segment in ipairs( gameoverbanner ) do
         love.graphics.rectangle( "fill", (segment[1]+offsetX)*snakeSize,(segment[2]+offsetY)*snakeSize, 
                                 snakeSize,snakeSize )
