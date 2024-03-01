@@ -98,6 +98,7 @@ end
 function initSnake()
     snake = {{1,1}, {2,1}, {2,2}}
     snakeDirection = keys.right
+    snakeSpeed = 0.12
 end
 
 function updateSnake()
