@@ -27,6 +27,8 @@ function love.load()
     initField( fieldSize )
     initSnake()
     loadHighscore()
+    bummer = love.audio.newSource( "bummer.wav", "static" )
+    crunch = love.audio.newSource( "crunch.wav", "static" )
 end
 function loadHighscore()  -- @todo: fix this...
     hs = love.filesystem.newFile( highScoreFile )
@@ -124,6 +126,7 @@ function updateSnake()
 end
 
 function lengthenSnake( addSegments )
+    crunch:play()
     addSegments = addSegments or 1
     for lcv = 1,addSegments do
         table.insert( snake, 1, snake[1] )
@@ -142,8 +145,10 @@ function drawField()
     for _, segment in ipairs( field ) do
         if _ == #field then
             love.graphics.setColor( 1, 0, 0, 1 )
+            love.graphics.print( string.format( "Score: %i  HighScore: %i", #snake, highScore ), 10, 10 )
         end
         love.graphics.rectangle( "fill", segment[1]*snakeSize, segment[2]*snakeSize, snakeSize, snakeSize )
+        
     end
 end
 
@@ -161,6 +166,7 @@ function endGame()
     print( "GAME OVER!  Snake Size is: "..#snake )
     isRunning = false
     highScore = math.max( highScore, #snake )
+    bummer:play()
 end
 
 function love.quit()
