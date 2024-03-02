@@ -104,8 +104,8 @@ end
 function updateSnake()
     firstSegment = snake[#snake]
     newHead = {firstSegment[1] + snakeDirection[1], firstSegment[2] + snakeDirection[2]}
-    if ( newHead[1] > maxX or newHead[1] < 0 
-            or newHead[2] > maxY or newHead[2] < 0 ) then
+    if ( newHead[1] >= maxX or newHead[1] < 0 
+            or newHead[2] >= maxY or newHead[2] < 0 ) then
         endGame()
     end
     for _, segment in pairs( snake ) do
