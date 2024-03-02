@@ -15,6 +15,7 @@ local updateTime = 0
 local isRunning = true
 local highScore = 0
 local highScoreFile = "highscore"
+local bummer, crunch
 
 function love.load()
     -- load function
